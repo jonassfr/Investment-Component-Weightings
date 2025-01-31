@@ -1,6 +1,23 @@
 import streamlit as st
 import pandas as pd
 
+# Passwortschutz
+PASSWORD = "FickDich123"  # Ändere das Passwort hier
+
+def check_password():
+    """Prüft das Passwort und zeigt die App nur bei korrektem Passwort an."""
+    entered_password = st.text_input("🔒 Enter Password:", type="password")
+    if entered_password == PASSWORD:
+        return True
+    elif entered_password:
+        st.error("❌ Password incorrect!")
+        return False
+    return False
+
+# Falls Passwort nicht korrekt → Keine App anzeigen
+if not check_password():
+    st.stop()
+
 # Main investment models with allocations (SUM must be exactly 1.00)
 investment_models = {
     "Moderate": {
