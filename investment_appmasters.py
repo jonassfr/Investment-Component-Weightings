@@ -23,11 +23,11 @@ investment_models = {
     "Moderate": {
         "Moderate Full": {
             "Cash": 0.01, "Dividend": 0.09, "Fixed Individuals": 0.17, "Fixed Core Full": 0.17,
-            "Gold": 0.03, "LargeCap": 0.07, "Real Estate": 0.08, "Sm/Md Cap Funds": 0.08, "Stock Core": 0.30
+            "Commodities": 0.06, "LargeCap": 0.07, "Real Estate": 0.08, "Sm/Md Cap Funds": 0.08, "Stock Core": 0.27
         },
         "Moderate Lite": {
-            "Cash": 0.01, "Fixed Core Lite & Small": 0.34, "LargeCap": 0.25, 
-            "Real Estate": 0.08, "Sm/Md Cap Funds": 0.14, "Stock Core Light": 0.15, "Gold": 0.03
+            "Cash": 0.01, "Fixed Core Lite & Small": 0.34, "LargeCap": 0.23, 
+            "Real Estate": 0.08, "Sm/Md Cap Funds": 0.13, "Stock Core Light": 0.15, "Commodities": 0.06
         },
         "Moderate Small Account": {
             "Cash": 0.01, "AGG": 0.11, "IYR": 0.05, "PRUFX": 0.10, "PRRIX": 0.12,
@@ -37,11 +37,11 @@ investment_models = {
     "Moderate Aggressive": {
         "Moderate Aggressive Full": {
             "Cash": 0.01, "Dividend": 0.10, "Fixed Core Full": 0.08, "Fixed Individuals": 0.08,
-            "Gold": 0.05, "LargeCap": 0.09, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.10, "Stock Core": 0.39
+            "Commodities": 0.10, "LargeCap": 0.09, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.10, "Stock Core": 0.34
         },
         "Moderate Aggressive Lite": {
-            "Cash": 0.01, "Fixed Core Lite & Small": 0.16, "LargeCap": 0.30, "Real Estate": 0.10, 
-            "Sm/Md Cap Funds": 0.23, "Stock Core Light": 0.15, "Gold": 0.05
+            "Cash": 0.01, "Fixed Core Lite & Small": 0.16, "LargeCap": 0.27, "Real Estate": 0.10, 
+            "Sm/Md Cap Funds": 0.21, "Stock Core Light": 0.15, "Commodities": 0.10
         },
         "Moderate Aggressive Small Account": {
             "Cash": 0.01, "AGG": 0.06, "IYR": 0.07, "PRUFX": 0.13, "PRRIX": 0.06, "SMDV": 0.12, 
@@ -50,8 +50,8 @@ investment_models = {
     },
     "Aggressive": {
         "Aggressive Full": {
-            "Cash": 0.01, "Dividend": 0.10, "Fixed Core Lite & Small": 0.05, "Gold": 0.05, 
-            "LargeCap": 0.12, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.13, "Stock Core": 0.44
+            "Cash": 0.01, "Dividend": 0.10, "Fixed Core Lite & Small": 0.05, "Commodities": 0.10, 
+            "LargeCap": 0.12, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.13, "Stock Core": 0.39
         }
     }
 }
@@ -59,7 +59,7 @@ investment_models = {
 # Subcategories (Fixed formatting and category naming)
 sub_categories = {
     "Dividend": {
-        "VZ": 0.12, "JNJ": 0.12, "MO": 0.12, "MRK": 0.12,
+        "VZ": 0.12, "JNJ": 0.12, "DOW": 0.12, "MRK": 0.12,
         "PG": 0.13, "T": 0.13, "CPB": 0.13, "C": 0.13
     },
     "Real Estate": {
@@ -77,20 +77,23 @@ sub_categories = {
     "Sm/Md Cap Funds": {
         "SMDV": 0.33, "SPMD": 0.33, "VBK": 0.34
     },
+    "Commodities": {
+        "URA": 0.25, "COM": 0.25, "GLD": 0.50
+    },
     "Stock Core": {
-        "AAPL": 0.0208, "ABBV": 0.0208, "ABNB": 0.0208, "AMZN": 0.0625, "CHKP": 0.0208, 
-        "COST": 0.0208, "CRWD": 0.0208, "CVX": 0.0208, "DOCS": 0.0208, "DOW": 0.0208, 
-        "DVA": 0.0208, "PAYO": 0.0208, "FDX": 0.0208, "GOOGL": 0.0208, "GS": 0.0208,
-        "JPM": 0.0208, "KO": 0.0208, "LLY": 0.0208, "LOW": 0.0208, "MA": 0.0208, 
-        "MMM": 0.0208, "MSFT": 0.0208, "NFLX": 0.0208, "NTNX": 0.0208, "ODFL": 0.0208, 
-        "QCOM": 0.0208, "REGN": 0.0208, "SBUX": 0.0208, "SPOT": 0.0208, "STLD": 0.0208, 
-        "STZ": 0.0208, "TSLA": 0.0208, "T": 0.0417, "UL": 0.0208, "ULTA": 0.0208, "V": 0.0208, 
-        "VZ": 0.0208, "INTC": 0.0208, "COM": 0.0625, "GNRC": 0.0208, "MP": 0.0208, 
-        "MTN": 0.0208, "WFC": 0.0208
+        "AAPL": 0.0217, "ABBV": 0.0217, "ABNB": 0.0217, "AMZN": 0.0652, "CHKP": 0.0217, 
+        "COST": 0.0217, "CRWD": 0.0217, "CVX": 0.0217, "DOCS": 0.0217, "NVDA": 0.0217, 
+        "DVA": 0.0217, "PAYO": 0.0217, "FDX": 0.0217, "GOOGL": 0.0217, "GS": 0.0217,
+        "JPM": 0.0217, "KO": 0.0217, "LLY": 0.0217, "LOW": 0.0217, "MA": 0.0217, 
+        "MMM": 0.0217, "MSFT": 0.0217, "NFLX": 0.0217, "NTNX": 0.0217, "ODFL": 0.0217, 
+        "QCOM": 0.0217, "REGN": 0.0217, "SBUX": 0.0217, "SPOT": 0.0217, "STLD": 0.0217, 
+        "STZ": 0.0217, "TSLA": 0.0435, "T": 0.0217, "UL": 0.0217, "ULTA": 0.0217, "V": 0.0217, 
+        "VZ": 0.0217, "INTC": 0.0217, "EXC": 0.0217, "GNRC": 0.0217, "MP": 0.0217, 
+        "MTN": 0.0217, "WFC": 0.0217
     },
     "Stock Core Light": {
-        "AAPL": 0.0588, "AMZN": 0.1176, "COST": 0.0588, "CVX": 0.0588, "DOCS": 0.0588, "DOW": 0.0588, "FDX": 0.0588,
-        "JPM": 0.0588, "LLY": 0.0588, "MMM": 0.0588, "SBUX": 0.0588, "TSLA": 0.0588, "T": 0.1176, "UL": 0.0588, "V": 0.0588
+        "AAPL": 0.0625, "AMZN": 0.1250, "COST": 0.0625, "CVX": 0.0625, "DOCS": 0.0625, "FDX": 0.0625,
+        "JPM": 0.0625, "LLY": 0.0625, "MMM": 0.0625, "SBUX": 0.0625, "TSLA": 0.1250, "T": 0.0625, "UL": 0.0625, "V": 0.0625
     }
 }
 
