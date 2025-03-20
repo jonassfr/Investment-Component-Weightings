@@ -1,5 +1,32 @@
 import streamlit as st
-import pandas as pd
+import pandas as pd 
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+# Google Sheets API einrichten
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+client = gspread.authorize(creds)
+
+def get_sheet(sheet_name):
+    """Verbindet mit einem bestimmten Tabellenblatt in Google Sheets"""
+    return client.open("MeineDaten").worksheet(sheet_name)
+
+def insert_data(sheet_name, data):
+    """Fügt eine neue Zeile in die Google Sheets-Tabelle ein"""
+    sheet = get_sheet(sheet_name)
+    sheet.append_row(data)
+
+def get_data(sheet_name):
+    """Lädt alle Daten aus Google Sheets und gibt sie als DataFrame zurück"""
+    sheet = get_sheet(sheet_name)
+    data = sheet.get_all_records()
+    return pd.DataFrame(data) if data else pd.DataFrame(columns=["Datum", "Kategorie", "Wert"])  # Fallback für leere Tabellen
+
+def delete_row(sheet_name, index):
+    """Löscht eine Zeile in Google Sheets (index basiert auf der Zeilennummer)"""
+    sheet = get_sheet(sheet_name)
+    sheet.delete_rows(index + 2)  # +2 wegen 1-basierter Indexierung
 
 # Passwortschutz
 PASSWORD = "FickDich123"  # Ändere das Passwort hier
@@ -17,6 +44,10 @@ def check_password():
 # Falls Passwort nicht korrekt → Keine App anzeigen
 if not check_password():
     st.stop()
+
+# Streamlit App UI
+st.title("📊 Management-App")
+main_selection = st.radio("Wähle eine Option:", ["🧮 Calculator", "📁 Tabellen"])
 
 # Main investment models with allocations (SUM must be exactly 1.00)
 investment_models = {
@@ -96,25 +127,81 @@ sub_categories = {
     }
 }
 
-# Streamlit App UI
-st.title("💰 Investment Calculator")
-selected_category = st.selectbox("📌 Select Investment Category:", list(investment_models.keys()))
-selected_model = st.selectbox("📊 Select Investment Model:", list(investment_models[selected_category].keys()))
-amount = st.number_input("💵 Enter Investment Amount ($):", min_value=0.0, step=1000.0)
+if main_selection == "🧮 Calculator":
+    st.subheader("💰 Investment Calculator")
+    selected_category = st.selectbox("📌 Select Investment Category:", list(investment_models.keys()))
+    selected_model = st.selectbox("📊 Select Investment Model:", list(investment_models[selected_category].keys()))
+    amount = st.number_input("💵 Enter Investment Amount ($):", min_value=0.0, step=1000.0)
 
-if amount > 0:
-    allocations = {category: round(amount * percent, 2) for category, percent in investment_models[selected_category][selected_model].items()}
-    
-    st.subheader("📊 Main Allocation Breakdown")
-    df_main = pd.DataFrame(list(allocations.items()), columns=["Category", "Amount"])
-    df_main["Amount"] = df_main["Amount"].apply(lambda x: f"${x:,.2f}")
-    st.table(df_main)
+    if amount > 0:
+        allocations = {category: round(amount * percent, 2) for category, percent in investment_models[selected_category][selected_model].items()}
+        
+        st.subheader("📊 Main Allocation Breakdown")
+        df_main = pd.DataFrame(list(allocations.items()), columns=["Category", "Amount"])
+        df_main["Amount"] = df_main["Amount"].apply(lambda x: f"${x:,.2f}")
+        st.table(df_main)
 
-    for main_category, main_amount in allocations.items():
-        if main_category in sub_categories:
-            st.subheader(f"🔹 {main_category} Breakdown")
-            df_sub = pd.DataFrame([(sub, round(main_amount * percent, 2)) for sub, percent in sub_categories[main_category].items()], columns=["Sub-Category", "Amount"])
-            df_sub["Amount"] = df_sub["Amount"].apply(lambda x: f"${x:,.2f}")
-            st.table(df_sub)
+        for main_category, main_amount in allocations.items():
+            if main_category in sub_categories:
+                st.subheader(f"🔹 {main_category} Breakdown")
+                df_sub = pd.DataFrame([(sub, round(main_amount * percent, 2)) for sub, percent in sub_categories[main_category].items()], columns=["Sub-Category", "Amount"])
+                df_sub["Amount"] = df_sub["Amount"].apply(lambda x: f"${x:,.2f}")
+                st.table(df_sub)
 
-    st.success("✅ Calculation saved.")
+        st.success("✅ Calculation saved.")
+
+elif main_selection == "📁 Tabellen":
+    sub_selection = st.radio("Wähle eine Tabelle:", ["🚗 Auto Fuhrpark", "🏥 Health", "👧 Daughter Expenses"])
+
+    if sub_selection == "🚗 Auto Fuhrpark":
+        st.subheader("🚗 Auto Fuhrpark")
+        datum = st.date_input("Datum")
+        modell = st.text_input("Fahrzeugmodell")
+        service_art = st.selectbox("Service-Art", ["Wartung", "Reparaturen", "Tanken", "Versicherung/Steuern", "Sonstiges"])
+        kosten = st.number_input("Kosten ($)", min_value=0.0, step=10.0)
+
+        if st.button("➕ Eintrag hinzufügen"):
+            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_art, kosten])
+            st.success("✅ Eintrag gespeichert!")
+
+        df = get_data("AutoFuhrpark")
+        st.table(df)
+
+        if st.button("❌ Letzten Eintrag löschen"):
+            delete_row("AutoFuhrpark", len(df))
+            st.success("🗑️ Letzter Eintrag gelöscht!")
+
+    elif sub_selection == "🏥 Health":
+        st.subheader("🏥 Health")
+        datum = st.date_input("Datum")
+        arztbesuch = st.text_input("Arztbesuch")
+        kategorie = st.selectbox("Kategorie", ["Routine-Untersuchung", "Spezialarzt", "Notfall", "Medikamente", "Sonstiges"])
+        medikamente = st.text_input("Medikamente")
+
+        if st.button("➕ Eintrag hinzufügen"):
+            insert_data("Health", [datum.strftime("%Y-%m-%d"), arztbesuch, kategorie, medikamente])
+            st.success("✅ Eintrag gespeichert!")
+
+        df = get_data("Health")
+        st.table(df)
+
+        if st.button("❌ Letzten Eintrag löschen"):
+            delete_row("Health", len(df))
+            st.success("🗑️ Letzter Eintrag gelöscht!")
+
+    elif sub_selection == "👧 Daughter Expenses":
+        st.subheader("👧 Daughter Expenses")
+        datum = st.date_input("Datum")
+        zweck = st.selectbox("Zweck", ["Schule & Bildung", "Freizeit & Hobbys", "Kleidung & Schuhe", "Gesundheit & Pflege", "Geschenke & Sonstiges"])
+        betrag = st.number_input("Betrag ($)", min_value=0.0, step=5.0)
+
+        if st.button("➕ Eintrag hinzufügen"):
+            insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag])
+            st.success("✅ Eintrag gespeichert!")
+
+        df = get_data("DaughterExpenses")
+        st.table(df)
+
+        if st.button("❌ Letzten Eintrag löschen"):
+            delete_row("DaughterExpenses", len(df))
+            st.success("🗑️ Letzter Eintrag gelöscht!")
