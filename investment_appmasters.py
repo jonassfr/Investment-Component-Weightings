@@ -196,6 +196,8 @@ elif main_selection == "📁 Tabellen":
         if st.button("❌ Letzten Eintrag löschen"):
             delete_row("Health", len(df))
             st.success("🗑️ Letzter Eintrag gelöscht!")
+        df = get_data("Health")
+        st.table(df)
 
     elif sub_selection == "👧 Daughter Expenses":
         st.subheader("👧 Daughter Expenses")
