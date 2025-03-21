@@ -5,12 +5,17 @@ import json
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Lade Google Credentials aus Streamlit Secrets
-credentials_json = st.secrets["GOOGLE_CREDENTIALS"]
-creds_dict = json.loads(credentials_json)
+creds_json = st.secrets["GOOGLE_CREDENTIALS"]
+creds_dict = dict(st.secrets["GOOGLE_CREDENTIALS"])  # Stelle sicher, dass es ein Dictionary ist
 
 # Authentifiziere mit Google Sheets API
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict)
 client = gspread.authorize(creds)
+
+spreadsheet = client.open("MeineDaten")  # Name des Google Sheets
+worksheet = spreadsheet.sheet1  # Erstes Arbeitsblatt auswählen
+
+st.success("✅ Verbindung erfolgreich!")
 
 def get_sheet(sheet_name):
     """Verbindet mit einem bestimmten Tabellenblatt in Google Sheets"""
