@@ -162,18 +162,19 @@ if main_selection == "🧮 Calculator":
         st.success("✅ Calculation saved.")
 
 elif main_selection == "📁 Tables":
-    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🏥 Health", "👧 Daughter Expenses"])
+    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🏥 Health", "💊 Medication Rx"])
 
     if sub_selection == "🚗 Cars":
         st.subheader("🚗 Cars")
         datum = st.date_input("Date")
-        modell = st.text_input("Car model")
-        service_art = st.selectbox("Service Category", ["Maintenance", "Repairs", "Gasolina", "Insurance/Tax", "Other"])
+        modell = st.selectbox("Car Model", ["Bea's Honda CRV", "Nik Honda Acorde", "Bob's Mitsubishi", "Bri's Jeep", "Dad's Kia"])
+        service_center = st.text_input("Service Center")
+        service_art = st.selectbox("Service Category", ["Breaks", "Battery", "Tires", "Alignment"])
         kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_art, kosten, notes])
+            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_center, service_art, kosten, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
@@ -203,15 +204,19 @@ elif main_selection == "📁 Tables":
             delete_row("Health")
             st.success("🗑️ Last entry deleted!")
 
-    elif sub_selection == "👧 Daughter Expenses":
-        st.subheader("👧 Daughter Expenses")
-        datum = st.date_input("Date")
-        zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
-        betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
+    elif sub_selection == "💊 Medication Rx":
+        st.subheader("💊 Medication Rx")
+        name_prescriber = st.text_input("Prescriber name")
+        name_medication = st.text_input("Medication name")
+        dosage = st.text_input("Dosage")
+        frequency = st.text_input("Frequency")
+        datum = st.date_input("Start Date")
+        prescribed = st.text_input("Prescribed")
+        purpose = st.text_input("Purpose")
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag, notes])
+            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
