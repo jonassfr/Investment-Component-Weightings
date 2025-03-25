@@ -230,37 +230,40 @@ elif main_selection == "📁 Tables":
                 unsafe_allow_html=True
             )
         
-            for i, row in df.iterrows():
-                col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([2, 2, 1, 1, 2, 1, 1.5, 2, 1, 1])
-                col1.write(row.get("Prescriber name", ""))
-                col2.write(row.get("Medication name", ""))
-                col3.write(row.get("Dosage", ""))
-                col4.write(row.get("Frequency", ""))
-                col5.write(row.get("Start Date", ""))
-                col6.write(row.get("Prescribed", ""))
-                col7.write(row.get("Purpose", ""))
-        
-                current_status = row.get("Status", "active")
-                new_status = col9.selectbox(
-                    "Status", ["active", "paused", "finished"],
-                    index=["active", "paused", "finished"].index(current_status),
-                    key=f"status_{i}"
-                )
-        
-                if col10.button("🗑️", key=f"delete_med_{i}"):
-                    sheet = get_sheet("DaughterExpenses")
-                    sheet.delete_rows(i + 2)
-                    st.success("✅ Entry deleted.")
-                    st.experimental_rerun()
-        
-                if new_status != current_status:
-                    sheet = get_sheet("DaughterExpenses")
-                    sheet.update_cell(i + 2, df.columns.get_loc("Status") + 1, new_status)
-                    st.success("🔄 Status updated.")
-                    st.experimental_rerun()
-        
-            # 🧱 Ende Scroll-Container
-            st.markdown("</div>", unsafe_allow_html=True)
+            if not df.empty:
+    st.markdown("### 📋 Medication Entries")
+
+    # Zeige Tabelle zur Übersicht
+    st.dataframe(df, use_container_width=True, height=300)
+
+    # Aktionen pro Zeile separat (Löschen & Status ändern)
+    for i, row in df.iterrows():
+        with st.expander(f"📝 Edit entry {i + 1}: {row.get('Medication name', '')}"):
+            col1, col2 = st.columns([4, 1])
+
+            # Status ändern
+            current_status = row.get("Status", "active")
+            new_status = col1.selectbox(
+                "Status",
+                ["active", "paused", "finished"],
+                index=["active", "paused", "finished"].index(current_status),
+                key=f"status_{i}"
+            )
+
+            # Status speichern
+            if new_status != current_status:
+                sheet = get_sheet("DaughterExpenses")
+                sheet.update_cell(i + 2, df.columns.get_loc("Status") + 1, new_status)
+                st.success("🔄 Status updated.")
+                st.experimental_rerun()
+
+            # Eintrag löschen
+            if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
+                sheet = get_sheet("DaughterExpenses")
+                sheet.delete_rows(i + 2)
+                st.success("✅ Entry deleted.")
+                st.experimental_rerun()
+
 
         else:
             st.info("No entries found.")
