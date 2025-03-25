@@ -55,7 +55,7 @@ if not check_password():
 
 # Streamlit App UI
 st.title("📊 Bob's Management App")
-main_selection = st.radio("Pick an =ption:", ["🧮 Calculator", "📁 Tables"])
+main_selection = st.radio("Select an Option:", ["🧮 Calculator", "📁 Tables"])
 
 # Main investment models with allocations (SUM must be exactly 1.00)
 investment_models = {
@@ -159,7 +159,7 @@ if main_selection == "🧮 Calculator":
         st.success("✅ Calculation saved.")
 
 elif main_selection == "📁 Tables":
-    sub_selection = st.radio("Pick a Table:", ["🚗 Cars", "🏥 Health", "👧 Daughter Expenses"])
+    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🏥 Health", "👧 Daughter Expenses"])
 
     if sub_selection == "🚗 Cars":
         st.subheader("🚗 Cars")
