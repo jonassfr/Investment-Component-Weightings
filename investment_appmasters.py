@@ -31,10 +31,13 @@ def get_data(sheet_name):
     data = sheet.get_all_records()
     return pd.DataFrame(data) if data else pd.DataFrame(columns=["Datum", "Kategorie", "Wert"])  # Fallback für leere Tabellen
 
-def delete_row(sheet_name, index):
-    """Löscht eine Zeile in Google Sheets (index basiert auf der Zeilennummer)"""
+def delete_row(sheet_name):
+    """Löscht die letzte Zeile mit Daten (nicht Header) aus dem Sheet."""
     sheet = get_sheet(sheet_name)
-    sheet.delete_rows(index + 2)  # +2 wegen 1-basierter Indexierung
+    all_values = sheet.get_all_values()
+    last_row = len(all_values)
+    if last_row > 1:  # Nur löschen, wenn mehr als die Headerzeile vorhanden ist
+        sheet.delete_rows(last_row)
 
 # Passwortschutz
 PASSWORD = "FickDich123"  # Ändere das Passwort hier
@@ -176,7 +179,7 @@ elif main_selection == "📁 Tables":
         st.table(df)
 
         if st.button("❌ Delete last entry"):
-            delete_row("AutoFuhrpark", len(df))
+            delete_row("AutoFuhrpark")
             st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "🏥 Health":
@@ -194,7 +197,7 @@ elif main_selection == "📁 Tables":
         st.table(df)
 
         if st.button("❌ Delete last entry"):
-            delete_row("Health", len(df))
+            delete_row("Health")
             st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "👧 Daughter Expenses":
@@ -211,5 +214,5 @@ elif main_selection == "📁 Tables":
         st.table(df)
 
         if st.button("❌ Delete last entry"):
-            delete_row("DaughterExpenses", len(df))
+            delete_row("DaughterExpenses")
             st.success("🗑️ Last entry deleted!")
