@@ -214,13 +214,50 @@ elif main_selection == "📁 Tables":
         prescribed = st.text_input("Prescribed")
         purpose = st.text_input("Purpose")
         notes = st.text_input("Notes")
+        status = st.selectbox("Status", ["active", "paused", "finished"])
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, notes])
+            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, notes, status])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
-        st.table(df)
+
+        if not df.empty:
+            st.markdown("### 📋 Medication Entries")
+            for i, row in df.iterrows():
+                col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([2, 2, 1, 1, 2, 1, 1.5, 2, 1, 1])
+                col1.write(row.get("Prescriber name", ""))
+                col2.write(row.get("Medication name", ""))
+                col3.write(row.get("Dosage", ""))
+                col4.write(row.get("Frequency", ""))
+                col5.write(row.get("Start Date", ""))
+                col6.write(row.get("Prescribed", ""))
+                col7.write(row.get("Purpose", ""))
+                col8.write(row.get("Notes", ""))
+        
+                # Status-Feld mit aktuellem Wert
+                current_status = row.get("Status", "active")
+                new_status = col9.selectbox(
+                    "Status", ["active", "paused", "finished"],
+                    index=["active", "paused", "finished"].index(current_status),
+                    key=f"status_{i}"
+                )
+        
+                # Löschen
+                if col10.button("🗑️", key=f"delete_med_{i}"):
+                    sheet = get_sheet("DaughterExpenses")
+                    sheet.delete_rows(i + 2)
+                    st.success("✅ Entry deleted.")
+                    st.experimental_rerun()
+        
+                # Status ändern
+                if new_status != current_status:
+                    sheet = get_sheet("DaughterExpenses")
+                    sheet.update_cell(i + 2, df.columns.get_loc("Status") + 1, new_status)
+                    st.success("🔄 Status updated.")
+                    st.experimental_rerun()
+        else:
+            st.info("No entries found.")
 
         if st.button("❌ Delete last entry"):
             delete_row("DaughterExpenses")
