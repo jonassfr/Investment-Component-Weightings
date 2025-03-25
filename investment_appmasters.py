@@ -230,7 +230,7 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i + 1}: {row.get('Medication name', '')}"):
+                with st.expander(f"📝 Edit entry: {row.get('Medication name', '')}"):
                     col1, col2 = st.columns([4, 1])
         
                     # Status ändern
