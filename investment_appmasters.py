@@ -221,7 +221,7 @@ elif main_selection == "📁 Tables":
 
         df = get_data("DaughterExpenses")
 
-       if not df.empty:
+        if not df.empty:
             st.markdown("### 📋 Medication Entries")
         
             # 🧱 Start Scroll-Container
