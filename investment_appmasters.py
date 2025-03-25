@@ -245,14 +245,14 @@ elif main_selection == "📁 Tables":
                     # Status speichern
                     if new_status != current_status:
                         sheet = get_sheet("DaughterExpenses")
-                        sheet.update_cell(i + 2, df.columns.get_loc("Status") + 1, new_status)
+                        sheet.update_cell(i + 1, df.columns.get_loc("Status") + 1, new_status)
                         st.success("🔄 Status updated.")
                         st.experimental_rerun()
 
                     # Eintrag löschen
                     if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
                         sheet = get_sheet("DaughterExpenses")
-                        sheet.delete_rows(i + 2)
+                        sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.experimental_rerun()
 
