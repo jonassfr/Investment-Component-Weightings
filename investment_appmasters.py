@@ -221,16 +221,7 @@ elif main_selection == "📁 Tables":
 
         df = get_data("DaughterExpenses")
 
-        if not df.empty:
-            st.markdown("### 📋 Medication Entries")
-        
-            # 🧱 Start Scroll-Container
-            st.markdown(
-                "<div style='overflow-x: auto; white-space: nowrap;'>",
-                unsafe_allow_html=True
-            )
-        
-            if not df.empty:
+       if not df.empty:
     st.markdown("### 📋 Medication Entries")
 
     # Zeige Tabelle zur Übersicht
@@ -263,6 +254,7 @@ elif main_selection == "📁 Tables":
                 sheet.delete_rows(i + 2)
                 st.success("✅ Entry deleted.")
                 st.experimental_rerun()
+
 
 
         else:
