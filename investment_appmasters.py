@@ -14,7 +14,7 @@ client = gspread.authorize(creds)
 spreadsheet = client.open("MeineDaten")  # Name des Google Sheets
 worksheet = spreadsheet.sheet1  # Erstes Arbeitsblatt auswählen
 
-st.success("✅ Verbindung erfolgreich!")
+st.success("✅ Connection successful!")
 
 def get_sheet(sheet_name):
     """Verbindet mit einem bestimmten Tabellenblatt in Google Sheets"""
@@ -54,8 +54,8 @@ if not check_password():
     st.stop()
 
 # Streamlit App UI
-st.title("📊 Management-App")
-main_selection = st.radio("Wähle eine Option:", ["🧮 Calculator", "📁 Tabellen"])
+st.title("📊 Bob's Management App")
+main_selection = st.radio("Pick an =ption:", ["🧮 Calculator", "📁 Tables"])
 
 # Main investment models with allocations (SUM must be exactly 1.00)
 investment_models = {
@@ -158,58 +158,58 @@ if main_selection == "🧮 Calculator":
 
         st.success("✅ Calculation saved.")
 
-elif main_selection == "📁 Tabellen":
-    sub_selection = st.radio("Wähle eine Tabelle:", ["🚗 Auto Fuhrpark", "🏥 Health", "👧 Daughter Expenses"])
+elif main_selection == "📁 Tables":
+    sub_selection = st.radio("Pick a Table:", ["🚗 Cars", "🏥 Health", "👧 Daughter Expenses"])
 
-    if sub_selection == "🚗 Auto Fuhrpark":
-        st.subheader("🚗 Auto Fuhrpark")
-        datum = st.date_input("Datum")
-        modell = st.text_input("Fahrzeugmodell")
-        service_art = st.selectbox("Service-Art", ["Wartung", "Reparaturen", "Tanken", "Versicherung/Steuern", "Sonstiges"])
-        kosten = st.number_input("Kosten ($)", min_value=0.0, step=10.0)
+    if sub_selection == "🚗 Cars":
+        st.subheader("🚗 Cars")
+        datum = st.date_input("Date")
+        modell = st.text_input("Car model")
+        service_art = st.selectbox("Service Category", ["Maintenance", "Repairs", "Gasolina", "Insurance/Tax", "Other"])
+        kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
 
-        if st.button("➕ Eintrag hinzufügen"):
+        if st.button("➕ Add entry"):
             insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_art, kosten])
-            st.success("✅ Eintrag gespeichert!")
+            st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
         st.table(df)
 
-        if st.button("❌ Letzten Eintrag löschen"):
+        if st.button("❌ Delete last entry"):
             delete_row("AutoFuhrpark", len(df))
-            st.success("🗑️ Letzter Eintrag gelöscht!")
+            st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "🏥 Health":
         st.subheader("🏥 Health")
-        datum = st.date_input("Datum")
-        arztbesuch = st.text_input("Arztbesuch")
-        kategorie = st.selectbox("Kategorie", ["Routine-Untersuchung", "Spezialarzt", "Notfall", "Medikamente", "Sonstiges"])
-        medikamente = st.text_input("Medikamente")
+        datum = st.date_input("Date")
+        arztbesuch = st.text_input("Doctor's Visit")
+        kategorie = st.selectbox("Category", ["Routine Examination", "Specialized Doctor", "Emergency", "Medication", "Other"])
+        medikamente = st.text_input("Medication")
 
-        if st.button("➕ Eintrag hinzufügen"):
+        if st.button("➕ Add entry"):
             insert_data("Health", [datum.strftime("%Y-%m-%d"), arztbesuch, kategorie, medikamente])
-            st.success("✅ Eintrag gespeichert!")
+            st.success("✅ Entry saved!")
 
         df = get_data("Health")
         st.table(df)
 
-        if st.button("❌ Letzten Eintrag löschen"):
+        if st.button("❌ Delete last entry"):
             delete_row("Health", len(df))
-            st.success("🗑️ Letzter Eintrag gelöscht!")
+            st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "👧 Daughter Expenses":
         st.subheader("👧 Daughter Expenses")
-        datum = st.date_input("Datum")
-        zweck = st.selectbox("Zweck", ["Schule & Bildung", "Freizeit & Hobbys", "Kleidung & Schuhe", "Gesundheit & Pflege", "Geschenke & Sonstiges"])
-        betrag = st.number_input("Betrag ($)", min_value=0.0, step=5.0)
+        datum = st.date_input("Date")
+        zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
+        betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
 
-        if st.button("➕ Eintrag hinzufügen"):
+        if st.button("➕ Add entry"):
             insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag])
-            st.success("✅ Eintrag gespeichert!")
+            st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
         st.table(df)
 
-        if st.button("❌ Letzten Eintrag löschen"):
+        if st.button("❌ Delete last entry"):
             delete_row("DaughterExpenses", len(df))
-            st.success("🗑️ Letzter Eintrag gelöscht!")
+            st.success("🗑️ Last entry deleted!")
