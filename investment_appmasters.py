@@ -203,20 +203,20 @@ elif main_selection == "📁 Tables":
             delete_row("Health")
             st.success("🗑️ Last entry deleted!")
 
-     elif sub_selection == "👧 Daughter Expenses":
-         st.subheader("👧 Daughter Expenses")
-         datum = st.date_input("Date")
-         zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
-         betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
-         notes = st.text_input("Notes")
+    elif sub_selection == "👧 Daughter Expenses":
+        st.subheader("👧 Daughter Expenses")
+        datum = st.date_input("Date")
+        zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
+        betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
+        notes = st.text_input("Notes")
 
-         if st.button("➕ Add entry"):
+        if st.button("➕ Add entry"):
             insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag, notes])
             st.success("✅ Entry saved!")
 
-         df = get_data("DaughterExpenses")
-         st.table(df)
+        df = get_data("DaughterExpenses")
+        st.table(df)
 
-         if st.button("❌ Delete last entry"):
+        if st.button("❌ Delete last entry"):
             delete_row("DaughterExpenses")
             st.success("🗑️ Last entry deleted!")
