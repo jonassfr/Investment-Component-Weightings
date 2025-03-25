@@ -170,9 +170,10 @@ elif main_selection == "📁 Tables":
         modell = st.text_input("Car model")
         service_art = st.selectbox("Service Category", ["Maintenance", "Repairs", "Gasolina", "Insurance/Tax", "Other"])
         kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
+        notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_art, kosten])
+            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_art, kosten, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
@@ -185,12 +186,14 @@ elif main_selection == "📁 Tables":
     elif sub_selection == "🏥 Health":
         st.subheader("🏥 Health")
         datum = st.date_input("Date")
-        arztbesuch = st.text_input("Doctor's Visit")
+        arztbesuch = st.text_input("Doctor Visited")
         kategorie = st.selectbox("Category", ["Routine Examination", "Specialized Doctor", "Emergency", "Medication", "Other"])
         medikamente = st.text_input("Medication")
+        kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
+        notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("Health", [datum.strftime("%Y-%m-%d"), arztbesuch, kategorie, medikamente])
+            insert_data("Health", [datum.strftime("%Y-%m-%d"), arztbesuch, kategorie, medikamente, kosten, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
@@ -205,9 +208,10 @@ elif main_selection == "📁 Tables":
         datum = st.date_input("Date")
         zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
         betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
+        notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag])
+            insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
