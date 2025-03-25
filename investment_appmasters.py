@@ -217,7 +217,7 @@ elif main_selection == "📁 Tables":
         status = st.selectbox("Status", ["active", "paused", "finished"])
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, notes, status])
+            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, status])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
@@ -233,7 +233,7 @@ elif main_selection == "📁 Tables":
                 col5.write(row.get("Start Date", ""))
                 col6.write(row.get("Prescribed", ""))
                 col7.write(row.get("Purpose", ""))
-                col8.write(row.get("Notes", ""))
+                
         
                 # Status-Feld mit aktuellem Wert
                 current_status = row.get("Status", "active")
