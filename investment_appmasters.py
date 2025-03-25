@@ -220,6 +220,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
+        df.index = df.index+1
 
         if not df.empty:
             st.markdown("### 📋 Medication Entries")
