@@ -209,50 +209,14 @@ elif main_selection == "📁 Tables":
         zweck = st.selectbox("Purpose", ["School", "Hobbys", "Clothes", "Health", "Presents & Others"])
         betrag = st.number_input("Amount ($)", min_value=0.0, step=5.0)
         notes = st.text_input("Notes")
-    
+
         if st.button("➕ Add entry"):
             insert_data("DaughterExpenses", [datum.strftime("%Y-%m-%d"), zweck, betrag, notes])
             st.success("✅ Entry saved!")
-    
+
         df = get_data("DaughterExpenses")
-    
-        if not df.empty:
-            # Datum als datetime formatieren
-            df["Datum"] = pd.to_datetime(df["Datum"])
-    
-            # 📅 Filterbereich
-            st.markdown("### 📅 Filter by Date")
-            col1, col2 = st.columns(2)
-            start_date = col1.date_input("From", value=pd.to_datetime("2023-01-01"))
-            end_date = col2.date_input("To", value=pd.to_datetime("today"))
-    
-            filtered_df = df[(df["Datum"] >= pd.to_datetime(start_date)) & (df["Datum"] <= pd.to_datetime(end_date))]
-    
-            # 💵 Gesamtsumme anzeigen
-            st.markdown("### 💵 Total Expenses")
-            try:
-                total = filtered_df["Wert"].astype(float).sum()
-            except KeyError:
-                total = filtered_df["Amount"].astype(float).sum()  # Falls Spalte „Wert“ nicht existiert
-            st.metric("Summe", f"${total:,.2f}")
-    
-            # 📋 Zeilen mit Delete-Buttons anzeigen
-            st.markdown("### 📋 Entries")
-            for i, row in filtered_df.iterrows():
-                col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 2, 1])
-                col1.write(row["Datum"].date())
-                col2.write(row["Kategorie"])
-                col3.write(f"${row['Wert']:,.2f}")
-                col4.write(row.get("Notes", ""))
-                if col5.button("🗑️", key=f"delete_{i}"):
-                    sheet = get_sheet("DaughterExpenses")
-                    sheet.delete_rows(i + 2)  # +2 wegen Header + 1-basiert
-                    st.success(f"Eintrag vom {row['Datum'].date()} gelöscht.")
-                    st.experimental_rerun()
-        else:
-            st.info("Noch keine Daten vorhanden.")
-    
-    
-            if st.button("❌ Delete last entry"):
-                delete_row("DaughterExpenses")
-                st.success("🗑️ Last entry deleted!")
+        st.table(df)
+
+        if st.button("❌ Delete last entry"):
+            delete_row("DaughterExpenses")
+            st.success("🗑️ Last entry deleted!")
