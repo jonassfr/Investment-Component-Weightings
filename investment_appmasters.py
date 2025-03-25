@@ -213,7 +213,6 @@ elif main_selection == "📁 Tables":
         datum = st.date_input("Start Date")
         prescribed = st.text_input("Prescribed")
         purpose = st.text_input("Purpose")
-        notes = st.text_input("Notes")
         status = st.selectbox("Status", ["active", "paused", "finished"])
 
         if st.button("➕ Add entry"):
