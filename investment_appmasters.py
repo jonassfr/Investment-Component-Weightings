@@ -162,7 +162,7 @@ if main_selection == "🧮 Calculator":
         st.success("✅ Calculation saved.")
 
 elif main_selection == "📁 Tables":
-    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🏥 Health", "💊 Medication Rx"])
+    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🩸 Blood Pressure Incident", "💊 Medication Rx"])
 
     if sub_selection == "🚗 Cars":
         st.subheader("🚗 Cars")
@@ -184,17 +184,18 @@ elif main_selection == "📁 Tables":
             delete_row("AutoFuhrpark")
             st.success("🗑️ Last entry deleted!")
 
-    elif sub_selection == "🏥 Health":
-        st.subheader("🏥 Health")
+    elif sub_selection == "🩸 Blood Pressure Incident":
+        st.subheader("🩸 Blood Pressure Incident")
+        bp_diag = st.text_input("BP DIAG.")
+        s_st = st.text_input("S/S.T.")
         datum = st.date_input("Date")
-        arztbesuch = st.text_input("Doctor Visited")
-        kategorie = st.selectbox("Category", ["Routine Examination", "Specialized Doctor", "Emergency", "Medication", "Other"])
-        medikamente = st.text_input("Medication")
-        kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
+        time = st.time_input("Time")
+        location = st.text_input("Location")
+        monitor = st.text_input("Monitor/Device")
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("Health", [datum.strftime("%Y-%m-%d"), arztbesuch, kategorie, medikamente, kosten, notes])
+            insert_data("Health", [bp_diag, s_st, datum.strftime("%Y-%m-%d"), time.strftime("%H:%M"), location, monitor, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
