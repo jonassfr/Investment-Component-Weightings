@@ -209,12 +209,12 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}: {row.get('Medication name', '')}"):
+                with st.expander(f"📝 Edit entry {i}: {row.get('BP DIAG.', '')}"):
                     col1, col2 = st.columns([4, 1])
 
                     # Eintrag löschen
                     if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
-                        sheet = get_sheet("DaughterExpenses")
+                        sheet = get_sheet("Health")
                         sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.rerun()
