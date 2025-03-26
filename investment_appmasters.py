@@ -162,7 +162,7 @@ if main_selection == "🧮 Calculator":
         st.success("✅ Calculation saved.")
 
 elif main_selection == "📁 Tables":
-    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🩸 Blood Pressure Incident", "💊 Medication Rx"])
+    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🩸 Blood Pressure Incident", "💊 Medication Rx", "🏥 G/I"])
 
     if sub_selection == "🚗 Cars":
         st.subheader("🚗 Cars")
@@ -265,3 +265,23 @@ elif main_selection == "📁 Tables":
         if st.button("❌ Delete last entry"):
             delete_row("DaughterExpenses")
             st.success("🗑️ Last entry deleted!")
+            
+    elif sub_selection == "🏥 G/I":
+        st.subheader("🏥 G/I")
+        datum = st.date_input("Date")
+        time = st.time_input("Time")
+        type = st.selectbox("Type", ["1", "2", "3", "4", "5"])
+        volume = st.selectbox("Volume",["Low", "Med", "High"])
+        notes = st.text_input("Notes")
+
+        if st.button("➕ Add entry"):
+            insert_data("GI", [datum.strftime("%Y-%m-%d"), time.strftime("%H:%M"), type, volume, notes])
+            st.success("✅ Entry saved!")
+
+        df = get_data("GI")
+        st.table(df)
+
+        if st.button("❌ Delete last entry"):
+            delete_row("GI")
+            st.success("🗑️ Last entry deleted!")
+
