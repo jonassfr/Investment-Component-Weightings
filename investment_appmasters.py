@@ -332,9 +332,23 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("GI")
-        st.table(df)
+        df.index = df.index+1
 
-        if st.button("❌ Delete last entry"):
-            delete_row("GI")
-            st.success("🗑️ Last entry deleted!")
+        if not df.empty:
+            st.markdown("### 📋 G/I Entries")
+
+            # Zeige Tabelle zur Übersicht
+            st.dataframe(df, use_container_width=True, height=300)
+        
+            # Aktionen pro Zeile separat (Löschen & Status ändern)
+            for i, row in df.iterrows():
+                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')}"):
+                    col1, col2 = st.columns([4, 1])
+                    
+                    # Eintrag löschen
+                    if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
+                        sheet = get_sheet("GI")
+                        sheet.delete_rows(i + 1)
+                        st.success("✅ Entry deleted.")
+                        st.rerun()
 
