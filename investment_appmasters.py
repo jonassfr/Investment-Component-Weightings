@@ -199,10 +199,31 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
-        st.table(df)
+        df.index = df.index+1
+
+        if not df.empty:
+            st.markdown("### 📋 Blood Pressure Entries")
+
+            # Zeige Tabelle zur Übersicht
+            st.dataframe(df, use_container_width=True, height=300)
+        
+            # Aktionen pro Zeile separat (Löschen & Status ändern)
+            for i, row in df.iterrows():
+                with st.expander(f"📝 Edit entry {i}: {row.get('Medication name', '')}"):
+                    col1, col2 = st.columns([4, 1])
+
+                    # Eintrag löschen
+                    if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
+                        sheet = get_sheet("DaughterExpenses")
+                        sheet.delete_rows(i + 1)
+                        st.success("✅ Entry deleted.")
+                        st.rerun()
+
+        else:
+            st.info("No entries found.")
 
         if st.button("❌ Delete last entry"):
-            delete_row("Health")
+            delete_row("DaughterExpenses")
             st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "💊 Medication Rx":
