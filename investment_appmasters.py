@@ -243,12 +243,14 @@ elif main_selection == "📁 Tables":
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
                 try:
-                    # hole sicher Werte ab
-                    date_val = row["Date"] if "Date" in row else ""
-                    location_val = row["Location"] if "Location" in row else ""
-                    with st.expander(f"📝 Edit entry {i}: {date_val} | {location_val}"):
+                    with st.expander(f"📝 Edit entry {i}", expanded=False):
+                        # Sichere Anzeige innerhalb des Expanders
+                        date_val = row["Date"] if "Date" in row else ""
+                        location_val = row["Location"] if "Location" in row else ""
+                        st.markdown(f"**Date:** {date_val}  \n**Location:** {location_val}")
+            
                         col1, col2 = st.columns([4, 1])
-    
+            
                         if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
                             sheet = get_sheet("Health")
                             sheet.delete_rows(i + 1)
@@ -289,7 +291,11 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}: {row.get('Start Date', '')} | {row.get('Medication', '')}"):
+                with st.expander(f"📝 Edit entry {i}", expanded=False):
+                    start_date = row["Start Date"] if "Start Date" in row else ""
+                    med_name = row["Medication"] if "Medication" in row else ""
+                    st.markdown(f"**Start Date:** {start_date}  \n**Medication:** {med_name}")
+                
                     col1, col2 = st.columns([4, 1])
         
                     # Status ändern
@@ -347,7 +353,11 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')} | {row.get('Time', '')}"):
+                with st.expander(f"📝 Edit entry {i}", expanded=False):
+                    date_val = row["Date"] if "Date" in row else ""
+                    time_val = row["Time"] if "Time" in row else ""
+                    st.markdown(f"**Date:** {date_val}  \n**Time:** {time_val}")
+                
                     col1, col2 = st.columns([4, 1])
                     
                     # Eintrag löschen
