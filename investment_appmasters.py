@@ -268,9 +268,10 @@ elif main_selection == "📁 Tables":
         prescribed = st.text_input("Prescribed")
         purpose = st.text_input("Purpose")
         status = st.selectbox("Status", ["active", "paused", "finished"])
+        notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%m/%d/%Y"), prescribed, purpose, status])
+            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%m/%d/%Y"), prescribed, purpose, status, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
