@@ -241,18 +241,22 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}: {row.get('Datum', '')} | {row.get('Location', '')}"):
+            try:
+                # hole sicher Werte ab
+                date_val = row["Date"] if "Date" in row else ""
+                location_val = row["Location"] if "Location" in row else ""
+                with st.expander(f"📝 Edit entry {i}: {date_val} | {location_val}"):
                     col1, col2 = st.columns([4, 1])
 
-                    # Eintrag löschen
                     if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
                         sheet = get_sheet("Health")
                         sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.rerun()
-
-        else:
-            st.info("No entries found.")
+            except Exception as e:
+                st.error(f"❌ Fehler bei Zeile {i}: {e}")
+    else:
+        st.info("No entries found.")
 
         if st.button("❌ Delete last entry"):
             delete_row("Health")
