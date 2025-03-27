@@ -179,7 +179,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
-        
+        df.index = df.index+1
 
         if not df.empty:
             st.markdown("### 📋 Car Entries")
@@ -189,8 +189,7 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}", expanded=False):
-                    st.markdown(f"**Date:** {row.get('Date', 'n/a')}  \n**Car Model:** {row.get('Car Model', 'n/a')}")
+                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')} | {row.get('Car Model', '')}"):
                     col1, col2 = st.columns([4, 1])
         
                     # Status ändern
@@ -232,7 +231,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
-        
+        df.index = df.index+1
 
         if not df.empty:
             st.markdown("### 📋 Blood Pressure Entries")
@@ -242,27 +241,21 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                try:
-                    with st.expander(f"📝 Edit entry {i}", expanded=False):
-                        # Sichere Anzeige innerhalb des Expanders
-                        date_val = row["Date"] if "Date" in row else ""
-                        location_val = row["Location"] if "Location" in row else ""
-                        st.markdown(f"**Date:** {date_val}  \n**Location:** {location_val}")
-            
-                        col1, col2 = st.columns([4, 1])
-            
-                        if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
-                            sheet = get_sheet("Health")
-                            sheet.delete_rows(i + 1)
-                            st.success("✅ Entry deleted.")
-                            st.rerun()
-                except Exception as e:
-                    st.error(f"❌ Fehler bei Zeile {i}: {e}")
+                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')} | {row.get('Location', '')}"):
+                    col1, col2 = st.columns([4, 1])
+
+                    # Eintrag löschen
+                    if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
+                        sheet = get_sheet("Health")
+                        sheet.delete_rows(i + 1)
+                        st.success("✅ Entry deleted.")
+                        st.rerun()
+
         else:
             st.info("No entries found.")
 
         if st.button("❌ Delete last entry"):
-            delete_row("Health")
+            delete_row("DaughterExpenses")
             st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "💊 Medication Rx":
@@ -281,7 +274,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
-       
+        df.index = df.index+1
 
         if not df.empty:
             st.markdown("### 📋 Medication Entries")
@@ -291,11 +284,7 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}", expanded=False):
-                    start_date = row["Start Date"] if "Start Date" in row else ""
-                    med_name = row["Medication"] if "Medication" in row else ""
-                    st.markdown(f"**Start Date:** {start_date}  \n**Medication:** {med_name}")
-                
+                with st.expander(f"📝 Edit entry {i}: {row.get('Start Date', '')} | {row.get('Medication', '')}"):
                     col1, col2 = st.columns([4, 1])
         
                     # Status ändern
@@ -343,7 +332,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("GI")
-        
+        df.index = df.index+1
 
         if not df.empty:
             st.markdown("### 📋 G/I Entries")
@@ -353,11 +342,7 @@ elif main_selection == "📁 Tables":
         
             # Aktionen pro Zeile separat (Löschen & Status ändern)
             for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}", expanded=False):
-                    date_val = row["Date"] if "Date" in row else ""
-                    time_val = row["Time"] if "Time" in row else ""
-                    st.markdown(f"**Date:** {date_val}  \n**Time:** {time_val}")
-                
+                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')} | {row.get('Time', '')}"):
                     col1, col2 = st.columns([4, 1])
                     
                     # Eintrag löschen
@@ -366,4 +351,3 @@ elif main_selection == "📁 Tables":
                         sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.rerun()
-
