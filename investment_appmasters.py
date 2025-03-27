@@ -224,10 +224,12 @@ elif main_selection == "📁 Tables":
         time = st.time_input("Time")
         location = st.text_input("Location")
         monitor = st.text_input("Monitor/Device")
+        pulse = st.text_input("Pulse")
+        ox = st.text_input("Ox")
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("Health", [bp_diag, s_st, datum.strftime("%m/%d/%Y"), time.strftime("%H:%M"), location, monitor, notes])
+            insert_data("Health", [bp_diag, s_st, datum.strftime("%m/%d/%Y"), time.strftime("%H:%M"), location, monitor, pulse, ox, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
