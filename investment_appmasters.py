@@ -232,7 +232,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
-        df.index = df.index+1
+        
 
         if not df.empty:
             st.markdown("### 📋 Blood Pressure Entries")
@@ -281,7 +281,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
-        df.index = df.index+1
+       
 
         if not df.empty:
             st.markdown("### 📋 Medication Entries")
@@ -343,7 +343,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("GI")
-        df.index = df.index+1
+        
 
         if not df.empty:
             st.markdown("### 📋 G/I Entries")
