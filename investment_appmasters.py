@@ -40,7 +40,7 @@ def delete_row(sheet_name):
         sheet.delete_rows(last_row)
 
 # Passwortschutz
-PASSWORD = "FickDich123"  # Ändere das Passwort hier
+PASSWORD = "B3ll@621"  # Ändere das Passwort hier
 
 def check_password():
     """Prüft das Passwort und zeigt die App nur bei korrektem Passwort an."""
@@ -175,7 +175,7 @@ elif main_selection == "📁 Tables":
         status = st.selectbox("Status", ["active", "paused", "finished"])
 
         if st.button("➕ Add entry"):
-            insert_data("AutoFuhrpark", [datum.strftime("%Y-%m-%d"), modell, service_center, service_art, kosten, notes, status])
+            insert_data("AutoFuhrpark", [datum.strftime("%m/%d/%Y"), modell, service_center, service_art, kosten, notes, status])
             st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
@@ -227,7 +227,7 @@ elif main_selection == "📁 Tables":
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("Health", [bp_diag, s_st, datum.strftime("%Y-%m-%d"), time.strftime("%H:%M"), location, monitor, notes])
+            insert_data("Health", [bp_diag, s_st, datum.strftime("%m/%d/%Y"), time.strftime("%H:%M"), location, monitor, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("Health")
@@ -270,7 +270,7 @@ elif main_selection == "📁 Tables":
         status = st.selectbox("Status", ["active", "paused", "finished"])
 
         if st.button("➕ Add entry"):
-            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%Y-%m-%d"), prescribed, purpose, status])
+            insert_data("DaughterExpenses", [name_prescriber, name_medication, dosage, frequency, datum.strftime("%m/%d/%Y"), prescribed, purpose, status])
             st.success("✅ Entry saved!")
 
         df = get_data("DaughterExpenses")
@@ -328,7 +328,7 @@ elif main_selection == "📁 Tables":
         notes = st.text_input("Notes")
 
         if st.button("➕ Add entry"):
-            insert_data("GI", [datum.strftime("%Y-%m-%d"), time.strftime("%H:%M"), type, volume, notes])
+            insert_data("GI", [datum.strftime("%m/%d/%Y"), time.strftime("%H:%M"), type, volume, notes])
             st.success("✅ Entry saved!")
 
         df = get_data("GI")
