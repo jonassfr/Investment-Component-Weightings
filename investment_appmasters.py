@@ -255,7 +255,7 @@ elif main_selection == "📁 Tables":
             st.info("No entries found.")
 
         if st.button("❌ Delete last entry"):
-            delete_row("DaughterExpenses")
+            delete_row("Health")
             st.success("🗑️ Last entry deleted!")
 
     elif sub_selection == "💊 Medication Rx":
