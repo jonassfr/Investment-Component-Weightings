@@ -179,7 +179,7 @@ elif main_selection == "📁 Tables":
             st.success("✅ Entry saved!")
 
         df = get_data("AutoFuhrpark")
-        df.index = df.index+1
+        
 
         if not df.empty:
             st.markdown("### 📋 Car Entries")
