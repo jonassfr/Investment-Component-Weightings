@@ -162,61 +162,9 @@ if main_selection == "🧮 Calculator":
         st.success("✅ Calculation saved.")
 
 elif main_selection == "📁 Tables":
-    sub_selection = st.radio("Select a Table:", ["🚗 Cars", "🩸 Blood Pressure Incident", "💊 Medication Rx", "🏥 G/I"])
+    sub_selection = st.radio("Select a Table:", ["🩸 Blood Pressure Incident", "💊 Medication Rx", "🏥 G/I"])
 
-    if sub_selection == "🚗 Cars":
-        st.subheader("🚗 Cars")
-        datum = st.date_input("Date")
-        modell = st.selectbox("Car Model", ["Bea's Honda CRV", "Nik Honda Acorde", "Bob's Mitsubishi", "Bri's Jeep", "Dad's Kia"])
-        service_center = st.text_input("Service Center")
-        service_art = st.selectbox("Service Category", ["Breaks", "Battery", "Tires", "Alignment"])
-        kosten = st.number_input("Costs ($)", min_value=0.0, step=10.0)
-        notes = st.text_input("Notes")
-        status = st.selectbox("Status", ["active", "paused", "finished"])
-
-        if st.button("➕ Add entry"):
-            insert_data("AutoFuhrpark", [datum.strftime("%m/%d/%Y"), modell, service_center, service_art, kosten, notes, status])
-            st.success("✅ Entry saved!")
-
-        df = get_data("AutoFuhrpark")
-        df.index = df.index+1
-
-        if not df.empty:
-            st.markdown("### 📋 Car Entries")
-
-            # Zeige Tabelle zur Übersicht
-            st.dataframe(df, use_container_width=True, height=300)
-        
-            # Aktionen pro Zeile separat (Löschen & Status ändern)
-            for i, row in df.iterrows():
-                with st.expander(f"📝 Edit entry {i}: {row.get('Date', '')} | {row.get('Car Model', '')}"):
-                    col1, col2 = st.columns([4, 1])
-        
-                    # Status ändern
-                    current_status = row.get("Status", "active")
-                    new_status = col1.selectbox(
-                        "Status",
-                        ["active", "paused", "finished"],
-                        index=["active", "paused", "finished"].index(current_status),
-                        key=f"status_{i}"
-                    )
-        
-                    # Status speichern
-                    if new_status != current_status:
-                        sheet = get_sheet("AutoFuhrpark")
-                        sheet.update_cell(i + 1, df.columns.get_loc("Status") + 1, new_status)
-                        st.success("🔄 Status updated.")
-                        st.rerun()
-
-                    # Eintrag löschen
-                    if col2.button("🗑️ Delete entry", key=f"delete_{i}"):
-                        sheet = get_sheet("AutoFuhrpark")
-                        sheet.delete_rows(i + 1)
-                        st.success("✅ Entry deleted.")
-                        st.rerun()
-
-
-    elif sub_selection == "🩸 Blood Pressure Incident":
+    if sub_selection == "🩸 Blood Pressure Incident":
         st.subheader("🩸 Blood Pressure Incident")
         bp_diag = st.text_input("BP DIAG.")
         s_st = st.text_input("S/S.T.")
