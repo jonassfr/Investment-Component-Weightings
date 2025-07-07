@@ -302,3 +302,6 @@ elif main_selection == "📁 Tables":
                         sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.rerun()
+if st.button("🚪 Logout"):
+    st.session_state.clear()
+    st.experimental_rerun()
