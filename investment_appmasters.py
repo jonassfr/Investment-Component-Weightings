@@ -73,7 +73,7 @@ st.markdown(f"👤 Logged in as: **{st.session_state['username']}** ({st.session
 # ⬅️ Logout Button oben platzieren
 # ⬅️ Logout Button oben platzieren
 with st.expander("🔐 Account"):
-    if st.button("🚪 Logout (Top)"):
+    if st.button("🚪 Logout"):
         st.session_state.clear()
         st.rerun()
 
