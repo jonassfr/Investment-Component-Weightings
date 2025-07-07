@@ -71,7 +71,7 @@ if not st.session_state.get("logged_in"):
 st.title("📊 Management App")
 st.markdown(f"👤 Logged in as: **{st.session_state['username']}** ({st.session_state['role']})")
 # ⬅️ Logout Button oben platzieren
-if st.button("🚪 Logout (Top)"):
+if st.button("🚪 Logout"):
     st.session_state.clear()
     st.rerun()
 
