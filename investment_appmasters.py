@@ -58,7 +58,7 @@ def login():
             st.session_state["username"] = username
             st.session_state["role"] = user["role"]
             st.session_state["sheet_prefix"] = user["sheet_prefix"]
-            st.experimental_rerun()
+            st.rerun() 
         else:
             st.error("❌ Incorrect username or password")
             
