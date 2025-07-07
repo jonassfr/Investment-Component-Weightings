@@ -70,6 +70,11 @@ if not st.session_state.get("logged_in"):
 # Streamlit App UI
 st.title("📊 Management App")
 st.markdown(f"👤 Logged in as: **{st.session_state['username']}** ({st.session_state['role']})")
+# ⬅️ Logout Button oben platzieren
+with st.expander("🔐 Account"):
+    if st.button("🚪 Logout (Top)"):
+        st.session_state.clear()
+        st.rerun()
 
 if st.session_state["role"] == "admin":
     main_selection = st.radio("Select an Option:", ["🧮 Calculator", "📁 Tables"])
