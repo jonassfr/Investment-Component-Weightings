@@ -41,9 +41,9 @@ def delete_row(sheet_name):
 
 # Nutzerverwaltung
 USERS = {
-    "admin": {"password": "B3ll@621", "role": "admin", "sheet_prefix": ""},
-    "daughter1": {"password": "pass123", "role": "user", "sheet_prefix": "D1_"},
-    "daughter2": {"password": "pass456", "role": "user", "sheet_prefix": "D2_"},
+    "bob": {"password": "B3ll@621", "role": "admin", "sheet_prefix": ""},
+    "user1": {"password": "B3ll@621", "role": "user", "sheet_prefix": "D1_"},
+    "user2": {"password": "B3ll@621", "role": "user", "sheet_prefix": "D2_"},
 }
 
 # Login-Funktion
