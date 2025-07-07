@@ -72,10 +72,9 @@ st.title("📊 Management App")
 st.markdown(f"👤 Logged in as: **{st.session_state['username']}** ({st.session_state['role']})")
 # ⬅️ Logout Button oben platzieren
 # ⬅️ Logout Button oben platzieren
-with st.expander("🔐 Account"):
-    if st.button("🚪 Logout"):
-        st.session_state.clear()
-        st.rerun()
+if st.button("🚪 Logout", key="logout_top"):
+    st.session_state.clear()
+    st.rerun()
 
 if st.session_state["role"] == "admin":
     main_selection = st.radio("Select an Option:", ["🧮 Calculator", "📁 Tables"])
@@ -325,7 +324,7 @@ elif main_selection == "📁 Tables":
                         sheet.delete_rows(i + 1)
                         st.success("✅ Entry deleted.")
                         st.rerun()
-if st.button("🚪 Logout"):
+if st.button("🚪 Logout", key="button_top"):
     st.session_state.clear()
     st.rerun()
 
