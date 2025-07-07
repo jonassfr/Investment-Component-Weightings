@@ -17,8 +17,8 @@ worksheet = spreadsheet.sheet1  # Erstes Arbeitsblatt auswählen
 st.success("✅ Connection successful!")
 
 def get_sheet(sheet_name):
-    """Verbindet mit einem bestimmten Tabellenblatt in Google Sheets"""
-    return client.open("MeineDaten").worksheet(sheet_name)
+    prefix = st.session_state.get("sheet_prefix", "")
+    return client.open("MeineDaten").worksheet(prefix + sheet_name)
 
 def insert_data(sheet_name, data):
     """Fügt eine neue Zeile in die Google Sheets-Tabelle ein"""
@@ -39,26 +39,43 @@ def delete_row(sheet_name):
     if last_row > 1:  # Nur löschen, wenn mehr als die Headerzeile vorhanden ist
         sheet.delete_rows(last_row)
 
-# Passwortschutz
-PASSWORD = "B3ll@621"  # Ändere das Passwort hier
+# Nutzerverwaltung
+USERS = {
+    "admin": {"password": "B3ll@621", "role": "admin", "sheet_prefix": ""},
+    "daughter1": {"password": "pass123", "role": "user", "sheet_prefix": "D1_"},
+    "daughter2": {"password": "pass456", "role": "user", "sheet_prefix": "D2_"},
+}
 
-def check_password():
-    """Prüft das Passwort und zeigt die App nur bei korrektem Passwort an."""
-    entered_password = st.text_input("🔒 Enter Password:", type="password")
-    if entered_password == PASSWORD:
-        return True
-    elif entered_password:
-        st.error("❌ Password incorrect!")
-        return False
-    return False
-
-# Falls Passwort nicht korrekt → Keine App anzeigen
-if not check_password():
+# Login-Funktion
+def login():
+    st.title("🔐 Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        user = USERS.get(username)
+        if user and user["password"] == password:
+            st.session_state["logged_in"] = True
+            st.session_state["username"] = username
+            st.session_state["role"] = user["role"]
+            st.session_state["sheet_prefix"] = user["sheet_prefix"]
+            st.experimental_rerun()
+        else:
+            st.error("❌ Incorrect username or password")
+            
+# Falls nicht eingeloggt, dann Login anzeigen und stoppen
+if not st.session_state.get("logged_in"):
+    login()
     st.stop()
 
 # Streamlit App UI
-st.title("📊 Bob's Management App")
-main_selection = st.radio("Select an Option:", ["🧮 Calculator", "📁 Tables"])
+st.title("📊 Management App")
+st.markdown(f"👤 Logged in as: **{st.session_state['username']}** ({st.session_state['role']})")
+
+if st.session_state["role"] == "admin":
+    main_selection = st.radio("Select an Option:", ["🧮 Calculator", "📁 Tables"])
+else:
+    main_selection = "📁 Tables"
+
 
 # Main investment models with allocations (SUM must be exactly 1.00)
 investment_models = {
