@@ -86,35 +86,35 @@ else:
 investment_models = {
     "Moderate": {
         "Moderate Full": {
-            "Cash": 0.01, "Commodities": 0.06, "Dividend": 0.09, "Fixed Core Full": 0.17, "Fixed Individuals": 0.17, 
+            "Cash": 0.01, "Commodities": 0.06, "Dividend": 0.09, "Fixed Core": 0.17, "Fixed Individuals": 0.17, 
             "LargeCap": 0.07, "Real Estate": 0.08, "Sm/Md Cap Funds": 0.08, "Stock Core": 0.27
         },
         "Moderate Lite": {
-            "Cash": 0.01, "Commodities": 0.06, "Fixed Core Lite & Small": 0.34, "LargeCap": 0.23, 
+            "Cash": 0.01, "Commodities": 0.06, "LargeCap": 0.23, "Fixed Core": 0.34,
             "Real Estate": 0.08, "Sm/Md Cap Funds": 0.13, "Stock Core Light": 0.15
         },
         "Moderate Small Account": {
-            "AGG": 0.11, "ARGT": 0.07, "Cash": 0.01, "IYR": 0.05, "PFF": 0.11, "PRRIX": 0.12, "PRUFX": 0.10, 
-            "SMDV": 0.10, "SPLG": 0.15, "VBK": 0.08, "VIG": 0.10
+            "ARGT": 0.07, "Cash": 0.01, "IYR": 0.05, "PRUFX": 0.10, 
+            "SMDV": 0.10, "SPLG": 0.15, "VBK": 0.08, "VIG": 0.10, "Fixed Core": 0.34
         }
     },
     "Moderate Aggressive": {
         "Moderate Aggressive Full": {
-            "Cash": 0.01, "Commodities": 0.10, "Dividend": 0.10, "Fixed Core Full": 0.08, "Fixed Individuals": 0.08,
+            "Cash": 0.01, "Commodities": 0.10, "Dividend": 0.10, "Fixed Core": 0.08, "Fixed Individuals": 0.08,
             "LargeCap": 0.09, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.10, "Stock Core": 0.34
         },
         "Moderate Aggressive Lite": {
-            "Cash": 0.01, "Commodities": 0.10, "Fixed Core Lite & Small": 0.16, "LargeCap": 0.27, "Real Estate": 0.10, 
+            "Cash": 0.01, "Commodities": 0.10, "Fixed Core": 0.16, "LargeCap": 0.27, "Real Estate": 0.10, 
             "Sm/Md Cap Funds": 0.21, "Stock Core Light": 0.15
         },
         "Moderate Aggressive Small Account": {
-             "AGG": 0.06, "ARGT": 0.07, "Cash": 0.01, "IYR": 0.07, "PFF": 0.06, "PRRIX": 0.06, "PRUFX": 0.13, 
+             "ARGT": 0.07, "Cash": 0.01, "Fixed Core": 0.18, "IYR": 0.07,"PRUFX": 0.13, 
             "SMDV": 0.12, "SPLG": 0.20, "VBK": 0.10, "VIG": 0.12
         }
     },
     "Aggressive": {
         "Aggressive Full": {
-            "Cash": 0.01, "Commodities": 0.10, "Dividend": 0.10, "Fixed Core Lite & Small": 0.05, 
+            "Cash": 0.01, "Commodities": 0.10, "Dividend": 0.10, "Fixed Core": 0.05,
             "LargeCap": 0.12, "Real Estate": 0.10, "Sm/Md Cap Funds": 0.13, "Stock Core": 0.39
         }
     }
@@ -132,10 +132,7 @@ sub_categories = {
     "LargeCap": {
         "ARGT": 0.13, "EWU": 0.13, "IAT": 0.10, "PRUFX": 0.18, "SPLG": 0.23, "VIG": 0.23
     },
-    "Fixed Core Lite & Small": {
-        "PRRIX": 1.00
-    },
-    "Fixed Core Full": {
+    "Fixed Core": {
         "AGG": 0.333, "PFF": 0.333, "PRRIX": 0.334
     },
     "Sm/Md Cap Funds": {
@@ -327,4 +324,5 @@ elif main_selection == "📁 Tables":
 if st.button("🚪 Logout", key="button_top"):
     st.session_state.clear()
     st.rerun()
+
 
